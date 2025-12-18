@@ -8,5 +8,4 @@ jobs:
     
     job2:
         steps:
-        -run: node -v
-        
+        - run: node -v
