@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { ArticlesData } from "@/types/article";
 import ArticleList from "@/components/ArticleList";
 import { fetchArticlesFromLocal } from "@/lib/huggingface";
+import { parseDate } from "@/lib/utils";
 
-export default function Home() {
+export default function MostRecentPage() {
   const [data, setData] = useState<ArticlesData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -24,17 +25,32 @@ export default function Home() {
       });
   }, []);
 
+  // 按日期排序，最新的在前，只取前20个
+  const sortedArticles = useMemo(() => {
+    if (!data) return [];
+    
+    return [...data.articles]
+      .sort((a, b) => {
+        const dateA = parseDate(a.date);
+        const dateB = parseDate(b.date);
+        const timeA = dateA ? dateA.getTime() : 0;
+        const timeB = dateB ? dateB.getTime() : 0;
+        return timeB - timeA; // 降序排列，最新的在前
+      })
+      .slice(0, 20); // 只取最新的20个
+  }, [data]);
+
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-[#1A1A1A] mb-2">Latest News</h1>
+        <h1 className="text-3xl font-bold text-[#1A1A1A] mb-2">Most Recent News</h1>
         {data && (
           <>
             <p className="text-gray-600">
-              {data.count} articles from {data.source}
+              Showing {sortedArticles.length} most recent articles (sorted by date, newest first)
             </p>
             <p className="text-sm text-gray-500 mt-1">
-              Last updated: {new Date(data.scraped_at).toLocaleString()}
+              Total articles: {data.count} from {data.source}
             </p>
           </>
         )}
@@ -71,9 +87,13 @@ export default function Home() {
             Retry
           </button>
         </div>
-      ) : data ? (
-        <ArticleList articles={data.articles} />
-      ) : null}
+      ) : sortedArticles.length > 0 ? (
+        <ArticleList articles={sortedArticles} />
+      ) : (
+        <div className="text-center py-12">
+          <p className="text-gray-500 text-lg">No articles available.</p>
+        </div>
+      )}
     </main>
   );
 }

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import NavBar from "@/components/NavBar";
 
 export const metadata: Metadata = {
-  title: "Landing Page",
-  description: "Welcome to landing page",
+  title: "News Hub",
+  description: "Latest news and articles",
 };
 
 export default function RootLayout({
@@ -13,7 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="bg-[#F5F5F5] min-h-screen">
+        <NavBar />
+        {children}
+      </body>
     </html>
   );
 }

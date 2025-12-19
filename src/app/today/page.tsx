@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { ArticlesData } from "@/types/article";
 import ArticleList from "@/components/ArticleList";
 import { fetchArticlesFromLocal } from "@/lib/huggingface";
+import { parseDate } from "@/lib/utils";
 
-export default function Home() {
+export default function TodayPage() {
   const [data, setData] = useState<ArticlesData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -24,17 +25,35 @@ export default function Home() {
       });
   }, []);
 
+  // 过滤出今天的文章
+  const todayArticles = useMemo(() => {
+    if (!data) return [];
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    return data.articles.filter((article) => {
+      const articleDate = parseDate(article.date);
+      if (!articleDate) {
+        console.warn(`Failed to parse date: ${article.date}`);
+        return false;
+      }
+      articleDate.setHours(0, 0, 0, 0);
+      return articleDate.getTime() === today.getTime();
+    });
+  }, [data]);
+
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-[#1A1A1A] mb-2">Latest News</h1>
+        <h1 className="text-3xl font-bold text-[#1A1A1A] mb-2">Today&apos;s News</h1>
         {data && (
           <>
             <p className="text-gray-600">
-              {data.count} articles from {data.source}
+              {todayArticles.length} articles published today
             </p>
             <p className="text-sm text-gray-500 mt-1">
-              Last updated: {new Date(data.scraped_at).toLocaleString()}
+              Total articles: {data.count} from {data.source}
             </p>
           </>
         )}
@@ -71,9 +90,13 @@ export default function Home() {
             Retry
           </button>
         </div>
-      ) : data ? (
-        <ArticleList articles={data.articles} />
-      ) : null}
+      ) : todayArticles.length > 0 ? (
+        <ArticleList articles={todayArticles} />
+      ) : (
+        <div className="text-center py-12">
+          <p className="text-gray-500 text-lg">No articles published today.</p>
+        </div>
+      )}
     </main>
   );
 }
