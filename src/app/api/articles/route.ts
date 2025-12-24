@@ -9,8 +9,8 @@ export async function GET() {
     
     // 从 Hugging Face 数据集获取数据
     const datasetName = process.env.HUGGINGFACE_DATASET_NAME || "Alwin-Yang/bmw-news-all";
-    const fileName = process.env.HUGGINGFACE_FILE_NAME || "bmw_training_latest.json";
-    
+    const fileName = process.env.HUGGINGFACE_FILE_NAME || "bmw_training_251224_1k_latest.json";
+
     console.log("[API] Dataset:", datasetName, "File:", fileName);
     
     const data = await fetchArticlesFromHuggingFace(datasetName, fileName);
