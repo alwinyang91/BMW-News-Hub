@@ -95,8 +95,8 @@ export async function fetchArticlesFromLocal(
   if (typeof window !== "undefined") {
     try {
       console.log("[Local] Using Hugging Face API directly (client-side)");
-      const datasetName = process.env.NEXT_PUBLIC_HUGGINGFACE_DATASET_NAME || "Alwin-Yang/bmw-news-all";
-      const fileName = process.env.NEXT_PUBLIC_HUGGINGFACE_FILE_NAME || "bmw_training_latest.json";
+      const datasetName = process.env.NEXT_PUBLIC_HUGGINGFACE_DATASET_NAME || "Alwin-Yang/bmw-articles";
+      const fileName = process.env.NEXT_PUBLIC_HUGGINGFACE_FILE_NAME || "bmw_articles_latest.json";
       return await fetchArticlesFromHuggingFace(datasetName, fileName);
     } catch (error) {
       console.error("[Local] Failed to fetch from Hugging Face:", error);

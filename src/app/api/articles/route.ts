@@ -8,8 +8,9 @@ export async function GET() {
     console.log("[API] Starting articles fetch...");
     
     // 从 Hugging Face 数据集获取数据
-    const datasetName = process.env.HUGGINGFACE_DATASET_NAME || "Alwin-Yang/bmw-news-all";
-    const fileName = process.env.HUGGINGFACE_FILE_NAME || "bmw_training_251224_1k_latest.json";
+    // 注意：使用 NEXT_PUBLIC_ 前缀以便在静态导出时也能访问
+    const datasetName = process.env.NEXT_PUBLIC_HUGGINGFACE_DATASET_NAME || process.env.HUGGINGFACE_DATASET_NAME || "Alwin-Yang/bmw-articles";
+    const fileName = process.env.NEXT_PUBLIC_HUGGINGFACE_FILE_NAME || process.env.HUGGINGFACE_FILE_NAME || "bmw_articles_latest.json";
 
     console.log("[API] Dataset:", datasetName, "File:", fileName);
     
@@ -39,8 +40,8 @@ export async function GET() {
           error: "Failed to fetch articles from Hugging Face",
           message: errorMessage,
           stack: process.env.NODE_ENV === 'development' ? errorStack : undefined,
-          datasetName: process.env.HUGGINGFACE_DATASET_NAME || "Alwin-Yang/bmw-news-all",
-          fileName: process.env.HUGGINGFACE_FILE_NAME || "bmw_training_20251219_163541_110articles.json"
+          datasetName: process.env.NEXT_PUBLIC_HUGGINGFACE_DATASET_NAME || process.env.HUGGINGFACE_DATASET_NAME || "Alwin-Yang/bmw-articles",
+          fileName: process.env.NEXT_PUBLIC_HUGGINGFACE_FILE_NAME || process.env.HUGGINGFACE_FILE_NAME || "bmw_articles_latest.json"
         },
         { 
           status: 500,
