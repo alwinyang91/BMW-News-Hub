@@ -25,7 +25,7 @@ export default function MostRecentPage() {
       });
   }, []);
 
-  // 按日期排序，最新的在前，只取前20个
+  // Sort by date, newest first, only take top 20
   const sortedArticles = useMemo(() => {
     if (!data) return [];
     
@@ -35,9 +35,9 @@ export default function MostRecentPage() {
         const dateB = parseDate(b.date);
         const timeA = dateA ? dateA.getTime() : 0;
         const timeB = dateB ? dateB.getTime() : 0;
-        return timeB - timeA; // 降序排列，最新的在前
+        return timeB - timeA; // Descending order, newest first
       })
-      .slice(0, 20); // 只取最新的20个
+      .slice(0, 20); // Only take the latest 20
   }, [data]);
 
   return (

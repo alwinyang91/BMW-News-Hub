@@ -6,19 +6,19 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
- * 解析日期字符串，支持多种格式
- * @param dateString - 日期字符串，支持 DD.MM.YYYY, YYYY-MM-DD 等格式
- * @returns Date 对象，如果解析失败则返回 null
+ * Parse date string, supports multiple formats
+ * @param dateString - Date string, supports DD.MM.YYYY, YYYY-MM-DD and other formats
+ * @returns Date object, returns null if parsing fails
  */
 export function parseDate(dateString: string): Date | null {
   if (!dateString) return null;
   
-  // 尝试解析 DD.MM.YYYY 格式 (例如: "19.12.2025")
+  // Try to parse DD.MM.YYYY format (e.g.: "19.12.2025")
   const ddmmyyyyMatch = dateString.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
   if (ddmmyyyyMatch) {
     const [, day, month, year] = ddmmyyyyMatch;
     const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-    // 验证日期是否有效
+    // Validate if date is valid
     if (date.getFullYear() === parseInt(year) && 
         date.getMonth() === parseInt(month) - 1 && 
         date.getDate() === parseInt(day)) {
@@ -26,7 +26,7 @@ export function parseDate(dateString: string): Date | null {
     }
   }
   
-  // 尝试使用标准 Date 构造函数解析其他格式
+  // Try using standard Date constructor to parse other formats
   const date = new Date(dateString);
   if (!isNaN(date.getTime())) {
     return date;

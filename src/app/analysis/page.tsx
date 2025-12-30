@@ -41,7 +41,7 @@ export default function AnalysisPage() {
       });
   }, []);
 
-  // 按月统计发文量
+  // Count articles by month
   const monthlyData = useMemo(() => {
     if (!data) return [];
 
@@ -66,7 +66,7 @@ export default function AnalysisPage() {
       .sort((a, b) => a.month.localeCompare(b.month));
   }, [data]);
 
-  // 按年统计发文量
+  // Count articles by year
   const yearlyData = useMemo(() => {
     if (!data) return [];
 
@@ -87,7 +87,7 @@ export default function AnalysisPage() {
       .sort((a, b) => a.year.localeCompare(b.year));
   }, [data]);
 
-  // 统计信息
+  // Statistics
   const stats = useMemo(() => {
     if (!data) return null;
 
@@ -173,7 +173,7 @@ export default function AnalysisPage() {
         </p>
       </div>
 
-      {/* 统计卡片 */}
+      {/* Statistics cards */}
       {stats && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <Card>
@@ -215,7 +215,7 @@ export default function AnalysisPage() {
         </div>
       )}
 
-      {/* 视图切换 */}
+      {/* View toggle */}
       <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as "monthly" | "yearly")} className="mb-6">
         <TabsList>
           <TabsTrigger value="monthly">Monthly View</TabsTrigger>
@@ -223,7 +223,7 @@ export default function AnalysisPage() {
         </TabsList>
       </Tabs>
 
-      {/* 图表 */}
+      {/* Chart */}
       <Card className="mb-8">
         <CardHeader>
           <CardTitle>
@@ -268,7 +268,7 @@ export default function AnalysisPage() {
         </CardContent>
       </Card>
 
-      {/* 数据表格 */}
+      {/* Data table */}
       <Card>
         <CardHeader>
           <CardTitle>

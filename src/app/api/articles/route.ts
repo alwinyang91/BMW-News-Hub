@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 import { fetchArticlesFromHuggingFace } from "@/lib/huggingface";
 
-// 从 Hugging Face 数据集获取数据
-// 注意：此 API route 在静态导出时会被临时排除（见 scripts/build-static.sh）
+// Fetch data from Hugging Face dataset
+// Note: This API route will be temporarily excluded during static export (see scripts/build-static.sh)
 export async function GET() {
   try {
     console.log("[API] Starting articles fetch...");
     
-    // 从 Hugging Face 数据集获取数据
-    // 注意：使用 NEXT_PUBLIC_ 前缀以便在静态导出时也能访问
+    // Fetch data from Hugging Face dataset
+    // Note: Use NEXT_PUBLIC_ prefix to access during static export
     const datasetName = process.env.NEXT_PUBLIC_HUGGINGFACE_DATASET_NAME || process.env.HUGGINGFACE_DATASET_NAME || "Alwin-Yang/bmw-articles";
     const fileName = process.env.NEXT_PUBLIC_HUGGINGFACE_FILE_NAME || process.env.HUGGINGFACE_FILE_NAME || "bmw_articles_latest.json";
 
@@ -33,7 +33,7 @@ export async function GET() {
     
     console.error("[API] Detailed error message:", errorMessage);
     
-    // 确保始终返回 JSON 格式的错误响应
+    // Ensure always return JSON format error response
     try {
       return NextResponse.json(
         { 
@@ -51,9 +51,9 @@ export async function GET() {
         }
       );
     } catch (jsonError) {
-      // 如果连 JSON 响应都失败了，记录错误
+      // If even JSON response fails, log error
       console.error("[API] Failed to create JSON error response:", jsonError);
-      // 返回一个简单的文本响应（虽然不应该发生）
+      // Return a simple text response (should not happen)
       return new Response(
         JSON.stringify({ 
           error: "Internal Server Error",

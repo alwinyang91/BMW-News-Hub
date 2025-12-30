@@ -24,7 +24,7 @@ export default function TagsPage() {
       });
   }, []);
 
-  // 从所有文章中提取所有唯一的标签
+  // Extract all unique tags from all articles
   const allTags = useMemo(() => {
     if (!data) return [];
     const tagSet = new Set<string>();
@@ -34,7 +34,7 @@ export default function TagsPage() {
     return Array.from(tagSet).sort();
   }, [data]);
 
-  // 根据选中的标签过滤文章
+  // Filter articles based on selected tag
   const filteredArticles = useMemo(() => {
     if (!data) return [];
     if (!selectedTag) {
