@@ -9,8 +9,8 @@ export interface Article {
 }
 
 export interface ArticlesData {
-  scraped_at: string;
-  source: string;
+  scraped_at?: string;
+  source?: string;
   count: number;
   articles: Article[];
 }

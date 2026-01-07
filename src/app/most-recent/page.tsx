@@ -50,7 +50,7 @@ export default function MostRecentPage() {
               Showing {sortedArticles.length} most recent articles (sorted by date, newest first)
             </p>
             <p className="text-sm text-gray-500 mt-1">
-              Total articles: {data.count} from {data.source}
+              Total articles: {data.count} from {data.source || 'BMW Press'}
             </p>
           </>
         )}

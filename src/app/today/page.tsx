@@ -53,7 +53,7 @@ export default function TodayPage() {
               {todayArticles.length} articles published today
             </p>
             <p className="text-sm text-gray-500 mt-1">
-              Total articles: {data.count} from {data.source}
+              Total articles: {data.count} from {data.source || 'BMW Press'}
             </p>
           </>
         )}

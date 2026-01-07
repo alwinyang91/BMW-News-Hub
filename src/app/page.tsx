@@ -31,10 +31,10 @@ export default function Home() {
         {data && (
           <>
             <p className="text-gray-600">
-              {data.count} articles from {data.source}
+              {data.count} articles from {data.source || 'BMW Press'}
             </p>
             <p className="text-sm text-gray-500 mt-1">
-              Last updated: {new Date(data.scraped_at).toLocaleString()}
+              Last updated: {data.articles[0]?.date || 'N/A'}
             </p>
           </>
         )}
