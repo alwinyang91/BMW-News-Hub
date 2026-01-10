@@ -20,4 +20,4 @@ Push to `main` branch to trigger automatic deployment to GitHub Pages.
 
 Ensure the repo is public.
 
-https://alwinyang91.github.io/BMW-News-Hub
+https://alwin-yang.github.io/BMW-News-Hub
